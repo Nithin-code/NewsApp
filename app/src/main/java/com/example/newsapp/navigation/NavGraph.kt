@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapp.dashboard.DashBoardScreen
+import com.example.newsapp.top_head_lines.view.TopHeadLinesScreen
 
 
 @Composable
@@ -24,9 +25,13 @@ fun NavGraph(
             DashBoardScreen(
                 modifier = modifier,
                 onItemClicked = {
-                    navController
+                    navController.navigate(Screens.TopHeadLinesScreen.route)
                 }
             )
+        }
+
+        composable(route = Screens.TopHeadLinesScreen.route){
+            TopHeadLinesScreen()
         }
 
     }

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "1.9.0" // match your Kotlin version
 }
 
 android {
@@ -75,4 +76,17 @@ dependencies {
     val nav_version = "2.9.6"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
+    testImplementation("io.mockk:mockk:1.13.5")
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    testImplementation("com.google.truth:truth:1.1.5")
+
+    testImplementation("com.google.code.gson:gson:2.10.1")
 }

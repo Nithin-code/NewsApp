@@ -1,14 +1,27 @@
 package com.example.newsapp.network.response
 
-sealed interface NetworkResponse<T,E> {
+sealed interface NetworkResponse<out T,out E> {
 
     data object Loading : NetworkResponse<Nothing, Nothing>
 
     data class Success<T>(val data : T) : NetworkResponse<T, Nothing>
 
-    data class Error<E>(val error : E) : NetworkResponse<Nothing, E>
+    data class Error<E>(val error : String) : NetworkResponse<Nothing, E>
+
+    fun getSuccessData() = (this as Success).data
+
+    fun isSuccess() = this is Success
+
+    fun isLoading() = this is Loading
+
+    fun isError() = this is Error
+
+    fun getSuccessDataOrNull() = if (this.isSuccess()) this.getSuccessData() else null
+
+    fun getErrorMessage() = (this as Error).error
 
 }
+
 
 sealed interface Error
 
@@ -29,4 +42,5 @@ sealed interface DataError : Error {
         UNKNOWN
     }
 }
+
 
