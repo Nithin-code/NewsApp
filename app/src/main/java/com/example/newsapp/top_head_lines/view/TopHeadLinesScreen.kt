@@ -24,37 +24,35 @@ import com.example.newsapp.components.FullPageLoadingScreen
 import com.example.newsapp.navigation.Screens
 import com.example.newsapp.network.client.KtorClient
 import com.example.newsapp.network.response.NetworkResponse
+import com.example.newsapp.network.response.OnResponseReceived
 import com.example.newsapp.top_head_lines.data.HeadLinesData
 import com.example.newsapp.top_head_lines.repository.TopHeadLinesRepositoryImpl
 import com.example.newsapp.top_head_lines.view_model.TopHeadLinesViewModel
 import io.ktor.client.HttpClient
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TopHeadLinesScreen(
     modifier: Modifier = Modifier
 ){
 
-    val viewModel = remember {
-        TopHeadLinesViewModel(TopHeadLinesRepositoryImpl(KtorClient.create()))
-    }
+    val viewModel = koinViewModel<TopHeadLinesViewModel>()
 
     val uiState = viewModel.headLinesDataUIState.collectAsState()
 
-    when(uiState.value){
-        is NetworkResponse.Error -> {
-            FullPageErrorPage(
-                errorMessage = uiState.value.getErrorMessage()
-            )
-        }
-        is NetworkResponse.Loading -> {
+    uiState.value.OnResponseReceived(
+        onLoading = {
             FullPageLoadingScreen()
-        }
-        is NetworkResponse.Success -> {
+        },
+        onError = {
+            FullPageErrorPage(errorMessage = it)
+        },
+        onSuccess = { data->
             TopHeadLinesScreenContent(
-                data = uiState.value.getSuccessData()
+                data = data
             )
         }
-    }
+    )
 
 }
 
@@ -65,7 +63,6 @@ fun TopHeadLinesScreenContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp),
     ) {
 
         itemsIndexed(data.articles){ index, item ->

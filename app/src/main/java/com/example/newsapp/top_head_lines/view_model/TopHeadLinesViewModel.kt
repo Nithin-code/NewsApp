@@ -31,7 +31,6 @@ class TopHeadLinesViewModel(
             _headLinesUIState.update {
                 response
             }
-            println("response Success Data is ${response.getSuccessDataOrNull()} , error data is ${response.isError()}")
         }
     }
 

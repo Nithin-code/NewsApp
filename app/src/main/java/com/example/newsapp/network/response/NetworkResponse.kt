@@ -22,9 +22,6 @@ sealed interface NetworkResponse<out T,out E> {
 
 }
 
-fun <T,E> NetworkResponse<T,E>.Map(){
-
-}
 
 sealed interface Error
 
